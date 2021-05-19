@@ -1,0 +1,5 @@
+﻿  main.cpp
+C:\Users\사용자\source\repos\Cpp_Minesweeper\Cpp_Minesweeper\Cpp_Minesweeper\main.cpp(164,24): warning C4553: '==': 식의 결과가 사용되지 않습니다. '='을(를) 의도했습니까?
+C:\Users\사용자\source\repos\Cpp_Minesweeper\Cpp_Minesweeper\Cpp_Minesweeper\main.cpp(167,29): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\사용자\source\repos\Cpp_Minesweeper\Cpp_Minesweeper\Cpp_Minesweeper\main.cpp(167,22): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  Cpp_Minesweeper.vcxproj -> C:\Users\사용자\source\repos\Cpp_Minesweeper\Cpp_Minesweeper\Debug\Cpp_Minesweeper.exe
