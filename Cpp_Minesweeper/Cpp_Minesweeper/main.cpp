@@ -16,7 +16,7 @@ struct pos
 int w = 32; // image pixel length
 int board[LENGTH + 1][WIDTH + 1];
 int user_board[LENGTH + 1][WIDTH + 1];
-int tail[10000];
+pos tail[10000];
 int ltail, excttail, firstMove, bombsFound;
 
 void initialisationUserBoard()
@@ -88,6 +88,257 @@ void numberGenerator()
 		}
 	}
 }
+void verification0(int i, int j)
+{
+	user_board[i][j] = 0;
+	if (board[i - 1][j - 1] == 0 && i - 1 > 0 && i - 1 <= LENGTH &&j - 1 > 0 && j - 1 <= WIDTH)
+	{
+		tail[ltail].column = i - 1;
+		tail[ltail].row = j -1;
+		ltail++;
+	}
+	if (board[i - 1][j] == 0 && i - 1 > 0 && i - 1 <= LENGTH && j > 0 && j <= WIDTH)
+	{
+		tail[ltail].column = i - 1;
+		tail[ltail].row = j;
+		ltail++;
+	}
+	if (board[i - 1][j + 1] == 0 && i - 1 > 0 && i - 1 <= LENGTH && j + 1 > 0 && j + 1 <= WIDTH)
+	{
+		tail[ltail].column = i - 1;
+		tail[ltail].row = j + 1;
+		ltail++;
+	}
+	if (board[i][j - 1] == 0 && i > 0 && i <= LENGTH && j + 1 > 0 && j + 1 <= WIDTH)
+	{
+		tail[ltail].column = i;
+		tail[ltail].row = j - 1;
+		ltail++;
+	}
+	if (board[i + 1][j - 1] == 0 && i + 1 > 0 && i + 1 <= LENGTH && j - 1 > 0 && j - 1 <= WIDTH)
+	{
+		tail[ltail].column = i + 1;
+		tail[ltail].row = j - 1;
+		ltail++;
+	}
+	if (board[i + 1][j] == 0 && i + 1 > 0 && i + 1 <= LENGTH && j > 0 && j <= WIDTH)
+	{
+		tail[ltail].column = i + 1;
+		tail[ltail].row = j;
+		ltail++;
+	}
+	if (board[i + 1][j+1] == 0 && i + 1 > 0 && i + 1 <= LENGTH && j + 1> 0 && j + 1 <= WIDTH)
+	{
+		tail[ltail].column = i + 1;
+		tail[ltail].row = j + 1;
+		ltail++;
+	}
+}
+
+void firstMoove(int i, int j)
+{
+	if (board[i][j] == 0)
+	{
+		user_board[i][j] = 0;
+		verification0(i, j);
+		while (excttail < ltail)
+		{
+			user_board[tail[excttail].column][tail[excttail].row] = 0;
+			excttail++;
+		}
+	}
+	else
+	{
+		user_board[i][j] = board[i][j];
+	}
+	if (board[i - 1][j - 1] != 9 && i - 1 > 0 && i - 1 <= LENGTH && j - 1 > 0 && j - 1 <= WIDTH)
+	{
+		if (board[i - 1][j - 1] == 0)
+		{
+			user_board[i - 1][j - 1] = 0;
+			verification0(i - 1, j - 1);
+			while (excttail < ltail)
+			{
+				user_board[tail[excttail].column][tail[excttail].row];
+				excttail++;
+			}
+		}
+		else
+		{
+			user_board[i - 1][j - 1] = board[i - 1][j - 1];
+		}
+	}
+	if (board[i - 1][j] != 9 && i - 1 > 0 && i - 1 <= LENGTH && j > 0 && j <= WIDTH)
+	{
+		if (board[i - 1][j] == 0)
+		{
+			user_board[i - 1][j] = 0;
+			verification0(i - 1, j);
+			while (excttail < ltail)
+			{
+				user_board[tail[excttail].column][tail[excttail].row];
+				excttail++;
+			}
+		}
+		else
+		{
+			user_board[i - 1][j] = board[i - 1][j];
+		}
+	}
+	if (board[i - 1][j + 1] != 9 && i - 1 > 0 && i - 1 <= LENGTH && j + 1 > 0 && j + 1 <= WIDTH)
+	{
+		if (board[i - 1][j + 1] == 0)
+		{
+			user_board[i - 1][j + 1] = 0;
+			verification0(i - 1, j + 1);
+			while (excttail < ltail)
+			{
+				user_board[tail[excttail].column][tail[excttail].row];
+				excttail++;
+			}
+		}
+		else
+		{
+			user_board[i - 1][j + 1] = board[i - 1][j + 1];
+		}
+	}
+	if (board[i][j - 1] != 9 && i > 0 && i <= LENGTH && j - 1 > 0 && j - 1 <= WIDTH)
+	{
+		if (board[i][j - 1] == 0)
+		{
+			user_board[i][j - 1] = 0;
+			verification0(i, j - 1);
+			while (excttail < ltail)
+			{
+				user_board[tail[excttail].column][tail[excttail].row];
+				excttail++;
+			}
+		}
+		else
+		{
+			user_board[i][j - 1] = board[i][j - 1];
+		}
+	}
+	if (board[i][j + 1] != 9 && i > 0 && i <= LENGTH && j + 1 > 0 && j + 1 <= WIDTH)
+	{
+		if (board[i][j + 1] == 0)
+		{
+			user_board[i][j + 1] = 0;
+			verification0(i, j + 1);
+			while (excttail < ltail)
+			{
+				user_board[tail[excttail].column][tail[excttail].row];
+				excttail++;
+			}
+		}
+		else
+		{
+			user_board[i][j + 1] = board[i][j + 1];
+		}
+	}
+	if (board[i + 1][j - 1] != 9 && i + 1> 0 && i + 1<= LENGTH && j - 1 > 0 && j - 1 <= WIDTH)
+	{
+		if (board[i + 1][j - 1] == 0)
+		{
+			user_board[i + 1][j - 1] = 0;
+			verification0(i + 1, j - 1);
+			while (excttail < ltail)
+			{
+				user_board[tail[excttail].column][tail[excttail].row];
+				excttail++;
+			}
+		}
+		else
+		{
+			user_board[i+ 1][j - 1] = board[i+ 1][j - 1];
+		}
+	}
+	if (board[i + 1][j] != 9 && i + 1 > 0 && i + 1 <= LENGTH && j  > 0 && j  <= WIDTH)
+	{
+		if (board[i + 1][j ] == 0)
+		{
+			user_board[i + 1][j ] = 0;
+			verification0(i + 1, j );
+			while (excttail < ltail)
+			{
+				user_board[tail[excttail].column][tail[excttail].row];
+				excttail++;
+			}
+		}
+		else
+		{
+			user_board[i + 1][j ] = board[i + 1][j ];
+		}
+	}
+	if (board[i + 1][j + 1] != 9 && i + 1 > 0 && i + 1 <= LENGTH && j + 1 > 0 && j + 1 <= WIDTH)
+	{
+		if (board[i + 1][j + 1] == 0)
+		{
+			user_board[i + 1][j + 1] = 0;
+			verification0(i + 1, j + 1);
+			while (excttail < ltail)
+			{
+				user_board[tail[excttail].column][tail[excttail].row];
+				excttail++;
+			}
+		}
+		else
+		{
+			user_board[i + 1][j + 1] = board[i + 1][j + 1];
+		}
+	}
+	if (board[i - 1][j + 2] != 9 && i - 1 > 0 && i - 1 <= LENGTH && j + 2 > 0 && j + 2 <= WIDTH)
+	{
+		if (board[i - 1][j + 2] == 0)
+		{
+			user_board[i - 1][j + 2] = 0;
+			verification0(i - 1, j + 1);
+			while (excttail < ltail)
+			{
+				user_board[tail[excttail].column][tail[excttail].row];
+				excttail++;
+			}
+		}
+		else
+		{
+			user_board[i - 1][j + 2] = board[i - 1][j + 2];
+		}
+	}
+	if (board[i][j + 2] != 9 && i  > 0 && i  <= LENGTH && j + 2 > 0 && j + 2 <= WIDTH)
+	{
+		if (board[i ][j + 2] == 0)
+		{
+			user_board[i][j + 2] = 0;
+			verification0(i , j + 1);
+			while (excttail < ltail)
+			{
+				user_board[tail[excttail].column][tail[excttail].row];
+				excttail++;
+			}
+		}
+		else
+		{
+			user_board[i][j + 2] = board[i][j + 2];
+		}
+	}
+	if (board[i + 1][j + 2] != 9 && i + 1 > 0 && i + 1 <= LENGTH && j + 2 > 0 && j + 2 <= WIDTH)
+	{
+		if (board[i + 1][j + 2] == 0)
+		{
+			user_board[i + 1][j + 2] = 0;
+			verification0(i + 1, j + 1);
+			while (excttail < ltail)
+			{
+				user_board[tail[excttail].column][tail[excttail].row];
+				excttail++;
+			}
+		}
+		else
+		{
+			user_board[i + 1][j + 2] = board[i + 1][j + 2];
+		}
+	}
+}
 int main()
 {
 	RenderWindow app(VideoMode(600, 570), "Minesweeper made by kimsezin");
@@ -115,40 +366,52 @@ int main()
 			{
 				app.close();
 			}
-		}
-
-
-		if (e.type == Event::MouseButtonPressed)
-		{
-			if (e.key.code == Mouse::Left)
+			if (e.type == Event::MouseButtonPressed)
 			{
-				if (firstMove == 0)
+				if (e.key.code == Mouse::Left)
 				{
-					bombsInitalisation(x, y);
-					numberGenerator();
-					firstMove = 1;
+					if (firstMove == 0)
+					{
+						bombsInitalisation(x,y);
+						numberGenerator();
+						firstMoove(x, y);
+						firstMove = 1;
+					}
+					else if (board[x][y] == 0)
+					{
+						verification0(x, y);
+						while (excttail < ltail)
+						{
+							user_board[tail[excttail].column][tail[excttail].row] = 0;
+							excttail++;
+						}
+					}
+					else
+					{
+						user_board[x][y] = board[x][y];
+					}
 				}
-			}
-			else if (e.key.code == Mouse::Right)
-			{
-				if (user_board[x][x] == 11)
+				else if (e.key.code == Mouse::Right)
 				{
-					user_board[x][y] = 10;
-				}
-				else if (user_board[x][y] > 9)
-				{
-					user_board[x][y] = 11;
-				}
-				if (board[x][y] == 9)
-				{
-					bombsFound++;
+					if (user_board[x][x] == 11)
+					{
+						user_board[x][y] = 10;
+					}
+					else if (user_board[x][y] > 9)
+					{
+						user_board[x][y] = 11;
+					}
+					if (board[x][y] == 9)
+					{
+						bombsFound++;
+					}
 				}
 			}
 		}
 		app.clear(Color::White);
 		if (bombsFound == BOMBS)
 		{
-			Sprite win;
+			Sprite win(winSource);
 			win.setTexture(winSource);
 			app.draw(win);
 			app.display();
@@ -161,13 +424,14 @@ int main()
 				{
 					if (user_board[x][y] == 9)
 					{
-						user_board[i][j] == board[i][j];
+						user_board[i][j] = board[i][j];
 					}
 					s.setTextureRect(IntRect(user_board[i][j] * w, 0, w, w));
 					s.setPosition(i * w, j * w);
-					app.draw(s);
+					app.draw(s); 
 				}
 			}
+			app.display();
 		}
 	}
 
