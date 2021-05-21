@@ -1,6 +1,4 @@
 #include <SFML/Graphics.hpp>
-#include <iostream>
-#include <ctime>
 
 #define LENGTH 16
 #define WIDTH 16
