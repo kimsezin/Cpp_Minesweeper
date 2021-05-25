@@ -32,54 +32,58 @@ void initialisationUserBoard()
 
 void bombsInitalisation(int a, int b) // a,b are the coordnates of the first move
 {
-	for (int i = 1; i <= BOMBS; i++)
+	for (int i = 1; i <= BOMBS; i++)//폭탄 개수만큼 폭탄 만들기
 	{
-		int x = rand() % LENGTH + 1;
+		int x = rand() % LENGTH + 1; // +1한 이유는 1부터시작시키기위해
 		int y = rand() % WIDTH + 1;
 		if (x == a and y == b)
 		{
-			int x = rand() % LENGTH + 1;
+			int x = rand() % LENGTH + 1; // 처음 누른곳이 폭탄이 설치되면 다시
 			int y = rand() % WIDTH + 1;
 		}
-		board[x][y] = 9;
+		board[x][y] = 9; // 이미지중 9번째인 폭탄모양
 	}
 
-}
+} //완료
 
 void numberGenerator()
 {
-	for (int i = 1; i <= LENGTH; i++)
+	for (int i = 1; i <= LENGTH; i++) // 모든 타일 뒤져서
 	{
 		for (int j = 1; j <= WIDTH; j++)
 		{
-			if (board[i][j] != 9)
+			if (board[i][j] != 9) //폭탄이 아닌거
 			{
 				int noBombs = 0;
-				if (board[i - 1][j - 1] == 9)
+				if (board[i - 1][j - 1] == 9) //좌상
 				{
 					noBombs++;
 				}
-				if (board[i - 1][j] == 9)
+				if (board[i - 1][j] == 9) // 좌
 				{
 					noBombs++;
 				}
-				if (board[i][j - 1] == 9)
+				if (board[i][j - 1] == 9) //좌하
 				{
 					noBombs++;
 				}
-				if (board[i][j] == 9)
+				if (board[i + 1][j - 1] == 9)//우상
 				{
 					noBombs++;
 				}
-				if (board[i + 1][j - 1] == 9)
+				if (board[i + 1][j] == 9)//우
 				{
 					noBombs++;
 				}
-				if (board[i + 1][j] == 9)
+				if (board[i + 1][j + 1] == 9)//우하
 				{
 					noBombs++;
 				}
-				if (board[i + 1][j + 1] == 9)
+				if (board[i + 1][j] == 9)//하
+				{
+					noBombs++;
+				}
+				if (board[i - 1][j] == 9)//상
 				{
 					noBombs++;
 				}
@@ -91,42 +95,56 @@ void numberGenerator()
 void verification0(int i, int j)
 {
 	user_board[i][j] = 0;
+	//좌상
 	if (board[i - 1][j - 1] == 0 && i - 1 > 0 && i - 1 <= LENGTH &&j - 1 > 0 && j - 1 <= WIDTH)
 	{
 		tail[ltail].column = i - 1;
 		tail[ltail].row = j -1;
 		ltail++;
 	}
+	//상
 	if (board[i - 1][j] == 0 && i - 1 > 0 && i - 1 <= LENGTH && j > 0 && j <= WIDTH)
 	{
 		tail[ltail].column = i - 1;
 		tail[ltail].row = j;
 		ltail++;
 	}
+	//좌하
 	if (board[i - 1][j + 1] == 0 && i - 1 > 0 && i - 1 <= LENGTH && j + 1 > 0 && j + 1 <= WIDTH)
 	{
 		tail[ltail].column = i - 1;
 		tail[ltail].row = j + 1;
 		ltail++;
 	}
-	if (board[i][j - 1] == 0 && i > 0 && i <= LENGTH && j + 1 > 0 && j + 1 <= WIDTH)
+	//좌
+	if (board[i][j - 1] == 0 && i > 0 && i <= LENGTH && j - 1 > 0 && j - 1 <= WIDTH)
 	{
 		tail[ltail].column = i;
 		tail[ltail].row = j - 1;
 		ltail++;
 	}
+	//우
+	if (board[i][j + 1] == 0 && i > 0 && i <= LENGTH && j + 1 > 0 && j + 1 <= WIDTH)
+	{
+		tail[ltail].column = i;
+		tail[ltail].row = j + 1;
+		ltail++;
+	}
+	//우상
 	if (board[i + 1][j - 1] == 0 && i + 1 > 0 && i + 1 <= LENGTH && j - 1 > 0 && j - 1 <= WIDTH)
 	{
 		tail[ltail].column = i + 1;
 		tail[ltail].row = j - 1;
 		ltail++;
 	}
+	//하
 	if (board[i + 1][j] == 0 && i + 1 > 0 && i + 1 <= LENGTH && j > 0 && j <= WIDTH)
 	{
 		tail[ltail].column = i + 1;
 		tail[ltail].row = j;
 		ltail++;
 	}
+	//우하
 	if (board[i + 1][j+1] == 0 && i + 1 > 0 && i + 1 <= LENGTH && j + 1> 0 && j + 1 <= WIDTH)
 	{
 		tail[ltail].column = i + 1;
@@ -137,9 +155,9 @@ void verification0(int i, int j)
 
 void firstMoove(int i, int j)
 {
-	if (board[i][j] == 0)
+	if (board[i][j] == 0) // 주변이 다 폭탄인거?? 이런 경우가있나..
 	{
-		user_board[i][j] = 0;
+		user_board[i][j] = 0; // 유저보드에 옮기기
 		verification0(i, j);
 		while (excttail < ltail)
 		{
@@ -341,10 +359,10 @@ void firstMoove(int i, int j)
 }
 int main()
 {
-	RenderWindow app(VideoMode(600, 570), "Minesweeper made by kimsezin");
+	RenderWindow app(VideoMode(600, 570), "Minesweeper made by kimsezin"); //움직일거니까 videomode 
 
 	Texture t;
-	t.loadFromFile("images/tiles.jpg");
+	t.loadFromFile("images/tiles.jpg"); //tiles.jpg받아오기
 	
 	
 	Texture winSource;
@@ -360,20 +378,20 @@ int main()
 		int y = pos.y / w;
 
 		Event e;
-		while (app.pollEvent(e))
+		while (app.pollEvent(e)) // 이벤트가 발생할 경우
 		{
-			if (e.type == Event::Closed)
+			if (e.type == Event::Closed) // 닫는 이벤트
 			{
-				app.close();
+				app.close(); // 앱 꺼주기
 			}
-			if (e.type == Event::MouseButtonPressed)
+			if (e.type == Event::MouseButtonPressed) // 마우스 버튼 눌렀을 시
 			{
-				if (e.key.code == Mouse::Left)
+				if (e.key.code == Mouse::Left) // 왼쪽 마우스
 				{
-					if (firstMove == 0)
+					if (firstMove == 0) // 맨 처음 누를때
 					{
-						bombsInitalisation(x,y);
-						numberGenerator();
+						bombsInitalisation(x,y); // 폭탄생성
+						numberGenerator();//본인 주변 8개중 폭탄아닌거 개수 board에 설정 
 						firstMoove(x, y);
 						firstMove = 1;
 					}
